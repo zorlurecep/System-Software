@@ -48,12 +48,35 @@ void compare_strings(char *str1, char *str2)
     printf("%d\n", result);
 }
 
+/*
+    **********SAFE***********
+    strncpy --> copy up to certain length
+    strncat --> concatenate up to certain length
+    **********UNSAFE***********
+    strcpy --> copy without length limitation
+    strcat --> concatenate without length limitation
+*/
+void concatenate_strings(char *str1, char *str2, char *ConcatenatedString)
+{
+    strncpy(ConcatenatedString, str1, 100);
+    strncat(ConcatenatedString, str2, 100);
+    printf("%s\n", ConcatenatedString);
+}
+
+int read_birthday()
+{
+    int year;
+    printf("Birth Year: ");
+    scanf("%d", &year);
+    return year;
+}
 
 // what is the difference between scanf and fscanf
 // I feel like they are two separate things. scanf from terminal and fscanf is from files.
 int main()
 {
-    char first[100], second[100], str[100]; // name[100], str[100];
+    char first[100], second[100], str[100], name[201];
+    int year;
 
     scan_variable("First Name: ", first);
     scan_variable("Second Name: ", second);
@@ -61,6 +84,11 @@ int main()
     conver_to_uppercase(second, str);
 
     compare_strings(second, str);
+
+    concatenate_strings(first, second, name);
+
+    year = read_birthday();
+    printf("%d", year);
 
     return 0;
 }
