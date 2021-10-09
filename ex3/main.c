@@ -71,6 +71,26 @@ int read_birthday()
     return year;
 }
 
+void concatenate_strings_others(char *str1, char *str2, int year, char *ConcatenatedString)
+{
+    /**
+     * sprintf --> concatenates strings and other types and stores on char buffer without size limitation
+     * snprintf --> concatenates strings and other types and stores on char buffer up to n characters
+    */
+
+    snprintf(ConcatenatedString, 200, "\n%s %s %d\n", str1, str2, year);
+    printf("%s", ConcatenatedString);
+}
+
+void scan_multiple_variable(char *first, char *second, int year)
+{
+    // Scan from a source inside the program rather than terminal line
+    char source[200];
+    strncpy(source, "Hello World 2", 200);
+    sscanf(source, "%s %s %d", first, second, &year);
+    printf("%s %s %d\n", first, second, year);
+}
+
 // what is the difference between scanf and fscanf
 // I feel like they are two separate things. scanf from terminal and fscanf is from files.
 int main()
@@ -88,7 +108,12 @@ int main()
     concatenate_strings(first, second, name);
 
     year = read_birthday();
-    printf("%d", year);
+
+    // To empty name because it is used earlier
+    memset(name, 0, 200); // array to empty, what to fill in instead?, length to clear
+    concatenate_strings_others(first, second, year, name);
+
+    scan_multiple_variable(first, second, year);
 
     return 0;
 }
