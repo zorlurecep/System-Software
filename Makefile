@@ -5,6 +5,11 @@ ex1: ex1/main.c
 	gcc -Wall -Werror -o ./build/ex1 ex1/main.c
 	./build/ex1
 
+ex2: ex2/main.c
+	mkdir -p build
+	gcc -Wall -Werror -o ./build/ex2 ex2/main.c
+	./build/ex2
+
 ex3: ex3/main.c
 	mkdir -p build
 	gcc -Wall -Werror -o ./build/ex3 ex3/main.c
