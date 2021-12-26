@@ -1,5 +1,10 @@
 # if you created a subfolder for every exercise this target will
 # build and execute the main.c file in the ex3 folder
+ex1: ex1/main.c
+	mkdir -p build
+	gcc -Wall -Werror -o ./build/ex1 ex1/main.c
+	./build/ex1
+
 ex3: ex3/main.c
 	mkdir -p build
 	gcc -Wall -Werror -o ./build/ex3 ex3/main.c
