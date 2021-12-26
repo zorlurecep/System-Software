@@ -5,21 +5,20 @@
 
 #define MAX_TEMPERATURE 35
 #define MIN_TEMPERATURE -10
-#define FREQ 1 //Every second
+#define FREQUENCY 5 
 
 double generate_temperature();
 
 int main(int argc, char const *argv[])
 {
-    srand(time(NULL));
-    double current_temperature = 0;
+    srand(time(NULL));    
     while (1)
     {
-        current_temperature = generate_temperature();
+        double current_temperature = generate_temperature();
 
-        printf("Temperature = %.1f @%ld\n", current_temperature, time(NULL));
+        printf("Temperature = %.2f @%ld\n", current_temperature, time(NULL));
         fflush( stdout );
-        sleep(1);
+        sleep(FREQUENCY);
     }
 
     return 0;

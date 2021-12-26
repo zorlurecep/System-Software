@@ -19,3 +19,6 @@ ex3: ex3/main.c
 # be submitted to labtools.groept.be
 zip: ex3/main.c
 	cd ex3 && zip ../lab2_ex3.zip main.c
+
+cppCheck: ex3/main.c
+	cppcheck --enable=all --suppress=missingIncludeSystem ex3/main.c
