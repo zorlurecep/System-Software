@@ -7,6 +7,18 @@
 
 typedef int size;
 
+typedef enum
+{
+    ALLOCATED,
+    FREE
+} mem_status;
+
+typedef struct
+{
+    size size;
+    mem_status status;
+} mem_chunk_header;
+
 /*
  * Allocates array of bytes (memory pool) and initializes the memory allocator.
  * If some bytes have been used after calling ma_malloc(size), calling to ma_init() will result in clearing up the memory pool.
@@ -29,7 +41,6 @@ void ma_free(void *ptr);
  * This function is only for debugging. It prints out the entire memory pool.
  * Use the code from the memdump tool to do this.
  */
-void ma_print(void);
+void ma_print(mem_chunk_header*);
 
-
-#endif //MA_MALLOC_H_ 
+#endif //MA_MALLOC_H_
