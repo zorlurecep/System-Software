@@ -15,12 +15,13 @@ debug_program_ddd:
 	gcc -g -o ./debug/output main.c ma_malloc.c
 	ddd ./debug/output &
 
-ex3: ex3/main.c
-	mkdir -p build
-	gcc -Wall -Werror -o ./build/ex3 ex3/main.c
-	./build/ex3
-
 # the main file in the ex3 folder will be ziped and is then ready to
 # be submitted to labtools.groept.be
-zip: ex3/main.c
-	cd ex3 && zip ../lab3_ex3.zip main.c
+zip:
+	rm lab3.zip
+	zip ./lab3.zip ma_malloc.c ma_malloc.h
+
+cppCheck: 
+	cppcheck --enable=all --suppress=missingIncludeSystem main.c
+	cppcheck --enable=all --suppress=missingIncludeSystem ma_malloc.c
+	cppcheck --enable=all --suppress=missingIncludeSystem ma_malloc.h
