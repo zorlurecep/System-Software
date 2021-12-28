@@ -10,7 +10,7 @@
 typedef unsigned char byte;
 
 static byte mem_pool[MEM_POOL_SIZE];
-static mem_chunk_header *header_pointers[7]; //= {NULL, NULL, NULL, NULL, NULL, NULL, NULL}; // size is 7
+static mem_chunk_header *header_pointers[7]; // !!! change the hardcoded value
 
 // Private Functions
 mem_chunk_header *create_new_header(int);
@@ -23,6 +23,8 @@ void ma_init()
 {
     printf("\nma_init\n");
 
+    mem_chunk_header mem_pool[MEM_POOL_SIZE] = {0};
+
     for (unsigned char i = 0; i < 7; i++)
     {
         header_pointers[i] = NULL;
@@ -34,10 +36,10 @@ void ma_init()
     h.status = FREE;
     hp = &h;
 
+    // do this twice for footer
     memcpy(mem_pool, hp, sizeof(mem_chunk_header));
 
     header_pointers[0] = (mem_chunk_header *)mem_pool;
-    printf("asdasd");
 }
 
 /**
@@ -53,8 +55,6 @@ void *ma_malloc(size tsize)
     while (counter < 7)
     {
         mem_chunk_header *cur_h_pointer = header_pointers[counter];
-        // mem_chunk_header cur_h;
-        // memcpy(&cur_h, mem_pool, sizeof(mem_chunk_header));
 
         if (cur_h_pointer != NULL)
         {
@@ -69,12 +69,13 @@ void *ma_malloc(size tsize)
                     cur_h_pointer->status = ALLOCATED;
 
                     memcpy(mem_pool + (memory_offset - (tsize + 8)), cur_h_pointer, sizeof(mem_chunk_header));
-                    printf("Memory allocated");
+                    printf("Memory allocated\n");
+                    ma_print(cur_h_pointer);
 
                     // create new header
                     if (counter + 1 < 7)
                     {
-                        printf("New chunk created");
+                        printf("New chunk created\n");
                         header_pointers[counter + 1] = create_new_header(memory_offset);
                     }
                     // add the header to header array
@@ -109,7 +110,15 @@ void *ma_malloc(size tsize)
  */
 void ma_free(void *ptr)
 {
-    printf("ma_free");
+    printf("\nma_free\n");
+    for (unsigned char i = 0; i < 7; i++)
+    {
+        if (header_pointers[i] == (mem_chunk_header *)ptr)
+        {
+            header_pointers[i]->status = FREE;
+            break;
+        }
+    }
 }
 
 /**
