@@ -24,3 +24,21 @@ check : $(SOURCE) $(HEADERS)
 clean:
 	rm -f *.o $(EXE) $(EXE)_test *~
 
+compile_test:
+	mkdir -p build
+	gcc -Wall -Werror -o ./build/output main.c dplist.c
+	./build/output
+
+debug_ddd:
+	mkdir -p debug
+	gcc -g -o ./debug/output dplist.c main.c
+	ddd ./debug/output &
+
+valgrind_check:
+	gcc -Wall -Werror -o ./build/output main.c dplist.c
+	valgrind --leak-check=full \
+         --show-leak-kinds=all \
+         --track-origins=yes \
+         --verbose \
+         --log-file=valgrind-out.txt \
+         ./build/output

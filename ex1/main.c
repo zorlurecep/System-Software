@@ -59,7 +59,7 @@ void test_element_operations(){
     element_t cur_element = dpl_get_element_at_index(list, 4);
     printf("current element is => %c\n", cur_element);
 
-    int index = dpl_get_element_at_index(list, cur_element);
+    int index = dpl_get_index_of_element(list, cur_element);
     printf("current element is at index => %d\n", index);
 
     dpl_free(&list);    
