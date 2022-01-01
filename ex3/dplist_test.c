@@ -1,11 +1,13 @@
 /**
  * \author Recep Ömer Zorlu
  */
+#define _GNU_SOURCE
 
 #include "dplist.h"
 #include <check.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 typedef struct {
     int id;
@@ -51,7 +53,7 @@ START_TEST(test_ListFree)
         ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
         // Test free NULL, use callback
-        dplist_t *list = NULL;
+        list = NULL;
         dpl_free(&list, true);
         ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
