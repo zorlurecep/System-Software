@@ -1,6 +1,7 @@
 #ingnore the default executable, e.g. a.out or files in the build folder
 a.out
 build/
+.vscode
 
 #ignore all zip files
 *.zip
