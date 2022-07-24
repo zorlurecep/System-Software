@@ -2,6 +2,8 @@
 a.out
 build/
 debug/
+cmake-build-debug/
+.idea/
 
 #ignore all zip files
 *.zip
