@@ -21,5 +21,8 @@ typedef struct {
     sensor_ts_t ts;         /** < sensor timestamp */
 } sensor_data_t;
 
+typedef enum {
+    false, true
+} bool;
 
 #endif /* _CONFIG_H_ */
