@@ -18,5 +18,10 @@ typedef struct {
     sensor_ts_t ts;
 } sensor_data_t;
 
+// It is in ms
+#ifndef TIMEOUT
+#define TIMEOUT 5000
+#endif
+
 
 #endif /* _CONFIG_H_ */
