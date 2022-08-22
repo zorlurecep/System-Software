@@ -11,6 +11,8 @@
 #define SBUFFER_SUCCESS 0
 #define SBUFFER_NO_DATA 1
 
+#include <stdbool.h>
+
 typedef struct sbuffer sbuffer_t;
 
 /**
@@ -34,7 +36,7 @@ int sbuffer_free(sbuffer_t **buffer);
  * \param data a pointer to pre-allocated sensor_data_t space, the data will be copied into this structure. No new memory is allocated for 'data' in this function.
  * \return SBUFFER_SUCCESS on success and SBUFFER_FAILURE if an error occurred
  */
-int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data);
+int sbuffer_remove(sbuffer_t *buffer);
 
 /**
  * Inserts the sensor data in 'data' at the end of 'buffer' (at the 'tail')
@@ -43,5 +45,11 @@ int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data);
  * \return SBUFFER_SUCCESS on success and SBUFFER_FAILURE if an error occured
 */
 int sbuffer_insert(sbuffer_t *buffer, sensor_data_t *data);
+
+void sbuffer_listen(sbuffer_t* buffer, bool (*reader_process)(sensor_data_t const*, void*), void* arg);
+
+void sbuffer_wait_readers(sbuffer_t *buffer, int numberOfReaders);
+
+int sbuffer_close(sbuffer_t *buffer);
 
 #endif  //_SBUFFER_H_
