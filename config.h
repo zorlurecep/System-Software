@@ -18,4 +18,12 @@ typedef struct {
     sensor_ts_t ts;
 } sensor_data_t;
 
+#ifndef TIMEOUT
+    #define TIMEOUT 5
+#endif
+
+void log_printf(const char* format, ...);
+
+#define FIFO_NAME "logFifo"
+
 #endif /* _CONFIG_H_ */

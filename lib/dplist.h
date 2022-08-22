@@ -5,9 +5,7 @@
 #ifndef _DPLIST_H_
 #define _DPLIST_H_
 
-typedef enum {
-    false, true
-} bool; // or use C99 #include <stdbool.h>
+#include <stdbool.h>
 
 /**
  * dplist_t is a struct containing at least a head pointer to the start of the list;
@@ -15,6 +13,13 @@ typedef enum {
 typedef struct dplist dplist_t;
 
 typedef struct dplist_node dplist_node_t;
+
+/*
+ * definition of error codes
+ * */
+#define DPLIST_NO_ERROR 0
+#define DPLIST_MEMORY_ERROR 1  // error due to mem alloc failure
+#define DPLIST_INVALID_ERROR 2 // error due to a list operation applied on a NULL list
 
 /* General remark on error handling
  * All functions below will:

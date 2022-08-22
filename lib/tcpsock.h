@@ -17,6 +17,21 @@
 
 #define MAX_PENDING 10
 
+#include <time.h>
+
+/**
+ * Structure for holding the TCP socket information
+ */
+struct tcpsock {
+    long cookie;        /**< if the socket is bound, cookie should be equal to MAGIC_COOKIE */
+    // remark: the use of magic cookies doesn't guarantee a 'bullet proof' test
+    int sd;             /**< socket descriptor */
+    char *ip_addr;      /**< socket IP address */
+    int port;           /**< socket port number */
+    time_t last_update;
+    int sensor_id;
+    int firstTime;
+};
 typedef struct tcpsock tcpsock_t;
 
 /**

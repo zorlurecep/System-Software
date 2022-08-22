@@ -6,7 +6,7 @@ all: sensor_gateway sensor_node file_creator
 
 # When trying to compile one of the executables, first look for its .c files
 # Then check if the libraries are in the lib folder
-sensor_gateway : main.c connmgr.c datamgr.c sensor_db.c sbuffer.c lib/libdplist.so lib/libtcpsock.so
+sensor_gateway : main.c connmgr.c datamgr.c sensor_db.c sbuffer.c libdplist.so libtcpsock.so
 	@echo "$(TITLE_COLOR)\n***** CPPCHECK *****$(NO_COLOR)"
 	cppcheck --enable=all --suppress=missingIncludeSystem main.c connmgr.c datamgr.c sensor_db.c sbuffer.c
 	@echo "$(TITLE_COLOR)\n***** COMPILING sensor_gateway *****$(NO_COLOR)"
@@ -22,15 +22,15 @@ file_creator : file_creator.c
 	@echo "$(TITLE_COLOR)\n***** COMPILE & LINKING file_creator *****$(NO_COLOR)"
 	gcc file_creator.c -o file_creator -Wall -fdiagnostics-color=auto
 
-sensor_node : sensor_node.c lib/libtcpsock.so
+sensor_node : sensor_node.c libtcpsock.so
 	@echo "$(TITLE_COLOR)\n***** COMPILING sensor_node *****$(NO_COLOR)"
 	gcc -c sensor_node.c -Wall -std=c11 -Werror -o sensor_node.o -fdiagnostics-color=auto
 	@echo "$(TITLE_COLOR)\n***** LINKING sensor_node *****$(NO_COLOR)"
 	gcc sensor_node.o -ltcpsock -o sensor_node -Wall -L./lib -Wl,-rpath=./lib -fdiagnostics-color=auto
 
 # If you only want to compile one of the libs, this target will match (e.g. make liblist)
-libdplist : lib/libdplist.so
-libtcpsock : lib/libtcpsock.so
+libdplist : libdplist.so
+libtcpsock : libtcpsock.so
 
 lib/libdplist.so : lib/dplist.c
 	@echo "$(TITLE_COLOR)\n***** COMPILING LIB dplist *****$(NO_COLOR)"
@@ -54,7 +54,21 @@ clean-all: clean
 	rm -rf lib/*.so
 
 run : sensor_gateway sensor_node
-	@echo "Add your own implementation here..."
+				gnome-terminal -- valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./sensor_gateway 1234	&> somefile.txt
+#	./sensor_gateway 1234 &> output.txt
+	sleep 2
+			-- ./sensor_node 15 2 127.0.0.1 1234 &		#start the sensors
+			-- ./sensor_node 21 3 127.0.0.1 1234 &
+			-- ./sensor_node 370 5 127.0.0.1 1234 &
+			-- ./sensor_node 49 15 127.0.0.1 1234 &
+			-- ./sensor_node 37 4 127.0.0.1 1234 &
+			-- ./sensor_node 112 1 127.0.0.1 1234 &
+			-- ./sensor_node 129 7 127.0.0.1 1234 &
+			-- ./sensor_node 132 6 127.0.0.1 1234 &
+			-- ./sensor_node 142 12 127.0.0.1 1234 &
+	@echo "Started the sensors"
+	sleep 30
+	pkill -f -e -c sensor_node													#Kill all the sensors
 
 zip:
 	zip lab_final.zip main.c connmgr.c connmgr.h datamgr.c datamgr.h sbuffer.c sbuffer.h sensor_db.c sensor_db.h config.h lib/dplist.c lib/dplist.h lib/tcpsock.c lib/tcpsock.h
